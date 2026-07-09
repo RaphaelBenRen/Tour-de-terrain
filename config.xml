@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="tas.checklist.tdt" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>tabletteUAPtest</name>
+    <description>Tour de Terrain Industrie - UAP</description>
+    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+
+    <preference name="Fullscreen" value="true" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="BackgroundColor" value="#FF242B75" />
+
+    <!-- Cordova / Android build configuration -->
+    <preference name="android-minSdkVersion" value="24" />
+    <preference name="android-targetSdkVersion" value="34" />
+    <preference name="android-compileSdkVersion" value="35" />
+    <preference name="AndroidXEnabled" value="true" />
+    <preference name="GradlePluginKotlinEnabled" value="true" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="AndroidInsecureFileModeEnabled" value="true" />
+
+    <!-- Corrige automatiquement, apres chaque prepare, deux incompatibilites Android :
+         1) permission WRITE_EXTERNAL_STORAGE declaree en double par les plugins camera + file ;
+         2) Jetifier (inutile ici, tout est deja AndroidX) qui casse la compilation d'appcompat. -->
+    <hook type="after_prepare" src="hooks/fix-android-build.js" />
+
+    <platform name="android">
+        <!-- Android 16 / 13+ : permissions runtime necessaires a la camera et aux medias -->
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+            <uses-feature android:name="android.hardware.camera" android:required="false" />
+        </config-file>
+    </platform>
+</widget>

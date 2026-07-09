@@ -1,0 +1,151 @@
+{
+  "CALODUCS": {
+    "Sécurité des personnes": [
+      "Port des EPI : Chaussures de sécurité + EPI indiqués sur les fiches de poste pour toutes les personnes en activité.",
+      "Les sorties de secours et les emplacements extincteur sont visibles et dégagés.",
+      "Le tri des déchets dangereux/chimiques est effectué dans les poubelles appropriées.",
+      "Les produits chimiques sont rangés dans les armoires après utilisation.",
+      "L'étiquetage des produits chimiques est adéquat.",
+      "Présence de passe-câbles sur tous les câbles apparents au sol.",
+      "Absence de situation dangereuse dans la semaine ?",
+      "Absence d'accident de travail dans la semaine ?"
+    ],
+    "Sécurité des produits": [
+      "Balisage et identification des activités \"critiques\" avec pancarte, ruban jaune ou rideau rouge indiquant l'activité (cintrage, soudure, sertissage).",
+      "Les caloducs sont rangés et avec leur fiche suiveuse dans les emplacements définis ou dans leur rack."
+    ],
+    "5S": [
+      "Gare Spaceloop : La rotation des Kanbans (emplacements jaunes vers les emplacements bleus) est effectuée. Le rangement de la gare est respecté.",
+      "Les transitiques sont dégagées dans l'atelier.",
+      "Chaque poste de travail est rangé après utilisation."
+    ],
+    "Règles d'Or de la Production": [
+      "Les fiches suiveuses accompagnent les caloducs et sont renseignées correctement à chaque étape.",
+      "Respect des allées de circulation par le personnel (autour des zones de balisage)."
+    ]
+  },
+  "COMPOSITE": {
+    "Sécurité des personnes": [
+      "- Port des EPI : Chaussures de sécurité pour toutes les personnes en activité. Tous les opérateurs portent les EPI indiqués sur les fiches de poste.",
+      "Les sorties de secours et les emplacements extincteur sont dégagés",
+      "Le tri des déchets dangereux/chimiques est effectué dans les poubelles appropriées",
+      "Rangement des produits chimiques dans les armoires après utilisation",
+      "Présence de passe-câbles (les câbles au sol sont protégés par des passe-câbles)",
+      "- Pont en cours d'utilisation : Aucun opérateur ne se trouve en dessous du pont durant la manipulation"
+    ],
+    "Sécurité des produits": [
+      "- Zone parking du pont : Ponts roulants en zone parking et le crochet est en position haute",
+      "Réfrigérateur : pas d'alarme / les composants dans le frigo sont encore en cours de validité",
+      "Vérifier l'état des stocks mini pour les piges téflon",
+      "Vérifier les états de validité des produits décongelés en salle pour garantir la prochaine polymérisation",
+      "Vérifier les états de validité des composants dans l'armoire de stockage Zund",
+      "Vérifier que les produits sont tous recouverts d'une bâche plastique pour prévenir des FODs",
+      "Les portes du SAS Hall E sont correctement fermées",
+      "Balisage existant autour des transitiques (suivant standard de balisage). Balisage et identification des activités critiques (pancarte indiquant l'activité « critiques »)"
+    ],
+    "5S": [
+      "- Respect du standard des gares SpaceLoop : Le mouvement des Kanban (emplacements jaunes vers les emplacements bleus) est effectué. Le rangement de la gare est respecté.",
+      "Zone parking des Moyens Non Vol (Passerelle élévatrice, marche-pied, autres…) non utilisés sont rangés aux emplacements définis",
+      "Transitiques dégagées (marquage au sol vert)",
+      "Identification du matériel dans les zones de travail => Pancarte avec programme et produit",
+      "Vérifier si les composants des restes de dossiers ne traînent pas sur les tables",
+      "Vérifier le rangement sous les tables (Mousse, Poids, Bannette vide, Dérouleur…)",
+      "Matériel présent nécessaire suivant zone définie et identifiée"
+    ],
+    "Règles d'Or de la Production": [
+      "Aucun téléphone portable présent sur les servantes ou zone de travail",
+      "Toute activité sur du \"vol\" est couverte par un dossier de fabrication DFC",
+      "Respect des allées de circulation par le personnel (autour des zones de balisage)"
+    ]
+  },
+  "P10": {
+    "Sécurité des personnes": [
+      "- Port des EPI : Chaussures de sécurité pour toutes les personnes en activité. Tous les opérateurs portent les EPI indiqués sur les fiches de poste.",
+      "Les sorties de secours et les emplacements extincteur sont dégagés",
+      "Le tri des déchets dangereux/chimiques est effectué dans les poubelles appropriées",
+      "Rangement des produits chimiques dans les armoires après utilisation",
+      "Présence de passe-câbles (les câbles au sol sont protégés par des passe-câbles)",
+      "- Pont en cours d'utilisation : Aucun opérateur ne se trouve en dessous du pont durant la manipulation"
+    ],
+    "Sécurité des produits": [
+      "- Zone parking du pont : Ponts roulants en zone parking et le crochet est en position haute",
+      "Vérifier les états de validité des produits décongelés en salle pour garantir la prochaine polymérisation",
+      "Balisage existant autour des transitiques (suivant standard de balisage). Balisage et identification des activités critiques (pancarte indiquant l'activité « critiques »)"
+    ],
+    "5S": [
+      "- Respect du standard des gares SpaceLoop : Le mouvement des Kanban (emplacements jaunes vers les emplacements bleus) est effectué. Le rangement de la gare est respecté.",
+      "Zone parking des Moyens Non Vol (Passerelle élévatrice, marche-pied, autres…) non utilisés sont rangés aux emplacements définis",
+      "Transitiques dégagées (marquage au sol vert)",
+      "Pas de cartons dans les ateliers (salle blanche). Pas de bois nu dans les ateliers (salle blanche uniquement bois peint est autorisé)",
+      "Identification du matériel dans les zones de travail => Pancarte avec programme et produit",
+      "Aspirateurs rangés dans leurs emplacements",
+      "Vérifier si les composants des restes de dossiers ne traînent pas sur les tables",
+      "Vérifier le rangement du matériel à son emplacement (Mousse, Poids, Bannette vide, Dérouleur…)",
+      "Inserts, Servi et plan rangés à côté du panneau en cours"
+    ],
+    "Règles d'Or de la Production": [
+      "Aucun téléphone portable présent sur les servantes ou zone de travail",
+      "Toute activité sur du \"vol\" est couverte par un dossier de fabrication Sinop ou papier",
+      "Respect des allées de circulation par le personnel (autour des zones de balisage)"
+    ]
+  },
+  "TS": {
+    "Sécurité des personnes": [
+      "L'alarme du coffret traitement d'air n'est pas déclenchée / si déclenchée ==> prévenir le poste de garde au 9833 / PC sous-sol",
+      "- Port des EPI : Chaussures de sécurité pour toutes les personnes en activité. Tous les opérateurs portent les EPI indiqués sur les fiches de poste.",
+      "Les 3 sorties de secours et les emplacements extincteur sont dégagés",
+      "Le tri des déchets dangereux/chimiques est effectué dans les poubelles appropriées",
+      "Rangement des produits chimiques dans les armoires après utilisation"
+    ],
+    "Sécurité des produits": [
+      "Balisage existant autour des transitiques (suivant standard de balisage)",
+      "- Zone parking du pont : Ponts roulants en zone parking et le crochet est en position haute",
+      "Réfrigérateur : pas d'alarme / les composants dans le frigo sont encore en cours de validité",
+      "Sur l'écran de commande/contrôle des bains CH1 & CH2 : pas d'anomalies relevées",
+      "Lors du tour au niveau des bassins de rétention ==> pas de présence de fuites"
+    ],
+    "5S": [
+      "- Respect du standard des gares SpaceLoop : Le mouvement des Kanban (emplacements jaunes vers les emplacements bleus) est effectué. Le rangement de la gare est respecté.",
+      "Transitiques entre les bains dégagées",
+      "Gare d'entrée/sortie : zone de transitique dégagée et accessible",
+      "Entrée sortie atelier TS dégagée et accessible",
+      "Entrée sortie atelier peinture dégagée et accessible",
+      "Respect du rangement de chaque poste de travail",
+      "Identification du matériel sur les postes de travail"
+    ],
+    "Règles d'Or de la Production": [
+      "Aucun téléphone portable présent sur les servantes ou zone de travail",
+      "Toutes les portes de l'atelier TS doivent être fermées",
+      "Toutes personnes entrantes seules dans l'atelier TS doivent être habilitées \"Formation spécifique Produit Chimique APAVE\"",
+      "Toutes personnes entrantes accompagnées dans l'atelier TS doivent avoir préalablement reçu la sensibilisation au risque chimique – version industrie et la sensibilisation aux risques de l'atelier de TS sur le terrain.",
+      "Toute activité sur du \"vol\" est couverte par un dossier de fabrication DFC ou DDT",
+      "Respect des allées de circulation par le personnel (autour des zones de balisage)"
+    ]
+  },
+  "USINAGE": {
+    "Sécurité des personnes": [
+      "Tous les opérateurs portent les EPI indiqués sur les fiches de poste",
+      "Les sorties de secours et les emplacements d'extincteurs sont dégagés",
+      "Le tri des déchets dangereux / chimiques est effectué dans les poubelles appropriées",
+      "Le rangement des produits chimiques est réalisé dans les armoires après utilisation",
+      "Pont en cours d'utilisation : Aucun opérateur ne se trouve en dessous du pont durant la manipulation"
+    ],
+    "Sécurité des produits": [
+      "Zone parking du pont : Les Ponts roulants sont en zone parking et le crochet est en position haute",
+      "Les balisages et identifications des activités critiques sont en place et visibles (pancarte indiquant l'activité « critiques »)"
+    ],
+    "5S": [
+      "Respect du standard des gares SpaceLoop : Le mouvement des Kanbans (emplacements jaunes vers les emplacements bleus) est effectué. Le rangement de la gare est respecté",
+      "Zone parking des Moyens Non Vol : Le palonnier à ventouse, marchepied et autres non utilisés sont rangés aux emplacements définis",
+      "Les transitiques sont dégagées (marquage au sol vert)",
+      "Les chutes des panneaux précédents sont bien découpées et jetées dans les poubelles adaptées",
+      "Les tables, établis et stockeur rotatif sont rangés (outils, outils coupants, moyen de contrôle…)",
+      "Les aspirateurs sont rangés à leurs emplacements",
+      "Le nettoyage des copeaux sur les tables des machines-outils et au sol est effectué"
+    ],
+    "Règles d'Or de la Production": [
+      "Toute activité sur du \"vol\" est couverte par un dossier de fabrication DFC",
+      "Les allées de circulation par le personnel sont respectées (autour des zones de balisage)"
+    ]
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "name": "tas.checklist.tdt",
+  "displayName": "tabletteUAPtest",
+  "main": "index.js",
+  "version": "1.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng build && cordova run android",
+    "watch": "ng build --watch --configuration development",
+    "serve": "ng serve",
+    "test": "ng test",
+    "build": "ng build && cordova build android"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^18.2.0",
+    "@angular/common": "^18.2.0",
+    "@angular/compiler": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "@angular/forms": "^18.2.0",
+    "@angular/platform-browser": "^18.2.0",
+    "@angular/platform-browser-dynamic": "^18.2.0",
+    "@angular/router": "^18.2.0",
+    "@angular/service-worker": "^18.2.0",
+    "@awesome-cordova-plugins/camera": "^6.11.0",
+    "@awesome-cordova-plugins/core": "^6.11.0",
+    "@awesome-cordova-plugins/file": "^6.11.0",
+    "@awesome-cordova-plugins/toast": "^6.11.0",
+    "cordova-plugin-x-toast": "^2.7.3",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.10"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^18.2.0",
+    "@angular/cli": "~18.2.0",
+    "@angular/compiler-cli": "^18.2.0",
+    "@types/jasmine": "~5.1.0",
+    "cordova-android": "^14.0.1",
+    "cordova-browser": "^6.0.0",
+    "cordova-plugin-camera": "^7.0.0",
+    "cordova-plugin-file": "^8.1.0",
+    "cordova-plugin-powermanagement": "^1.0.5",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.5.4"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "Clément LEFEVRE",
+  "license": "TAS",
+  "cordova": {
+    "platforms": [
+      "browser",
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-camera": {
+        "ANDROIDX_CORE_VERSION": "1.6.+"
+      },
+      "cordova-plugin-x-toast": {},
+      "cordova-plugin-powermanagement": {},
+      "cordova-plugin-file": {
+        "ANDROIDX_WEBKIT_VERSION": "1.4.0"
+      }
+    }
+  }
+}

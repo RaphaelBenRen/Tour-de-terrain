@@ -1,0 +1,38 @@
+<div class="popup" [class]="checklistService.errorParsingFile ? 'visible' : 'collapsed'">
+  <div class="dialog dialog--error">
+    <h1>Erreur de lecture du fichier</h1>
+    <p>Vérifiez que la checklist a bien été importée au format JSON.</p>
+  </div>
+</div>
+
+<div class="mainContainer register">
+  <form class="register-card card" (ngSubmit)="registerUser()">
+    <div class="register-head">
+      <h1>Tour de Terrain Industrie</h1>
+      <p>Identification de l'opérateur</p>
+    </div>
+
+    <label class="field">
+      <span class="field-label">Nom et prénom</span>
+      <input required type="text" name="username" [(ngModel)]="username" placeholder="Nom Prénom" />
+    </label>
+
+    <label class="field">
+      <span class="field-label">Unité (UAP)</span>
+      <select [(ngModel)]="uap" name="uap" id="uap">
+        <option value="1">UAP 1</option>
+        <option value="2">UAP 2</option>
+        <option value="3">UAP 3</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Type de production</span>
+      <select [(ngModel)]="typeForUap" name="type" id="typeProd">
+        <option *ngFor="let t of checklistService.availableTypes" [value]="t">{{ t }}</option>
+      </select>
+    </label>
+
+    <button class="btn-primary" type="submit">Démarrer le TDT</button>
+  </form>
+</div>

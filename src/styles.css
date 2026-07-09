@@ -1,0 +1,193 @@
+/* =========================================================================
+   TabletteUAP — Design system (charte Thales)
+   Repris du webapp gestion_stock : bleu #242B75, cyan #5DBFD5, Arial.
+   Cible principale : tablette en portrait. Tout est fluide (clamp/rem/%).
+   ========================================================================= */
+
+/* --- Police embarquée : Titillium Web (offline, look aérospatial Thales) --- */
+@font-face {
+  font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/titillium-web-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('assets/fonts/titillium-web-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('assets/fonts/titillium-web-700.woff2') format('woff2');
+}
+
+:root {
+  /* Police applicative */
+  --font: 'Titillium Web', 'Segoe UI', Arial, 'Helvetica Neue', system-ui, sans-serif;
+
+  /* --- Charte officielle Thales --- */
+  --thales-blue: #242b75;
+  --thales-blue-dark: #1a1f56;
+  --thales-blue-light: #3a47b8;
+  --thales-cyan: #5dbfd5;
+  --thales-cyan-dark: #3da8c0;
+  --thales-cyan-pale: #e8f7fa;
+  --thales-grey: #6c757d;
+  --thales-border: #dee2e6;
+
+  /* Compat ancienne variable */
+  --TASLightBlue: var(--thales-blue);
+
+  /* --- Surfaces --- */
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-muted: #f1f5f9;
+  --text: #0f172a;
+  --text-muted: #64748b;
+
+  /* --- Statuts (OK / NOK) --- */
+  --ok: #10b981;
+  --ok-dark: #059669;
+  --nok: #ef4444;
+  --nok-dark: #dc2626;
+  --warn: #f59e0b;
+
+  /* --- Rayons / ombres --- */
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.1);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.18);
+
+  /* --- Cible tactile mini --- */
+  --touch: 48px;
+
+  /* --- Typographie fluide --- */
+  --fs-xs: clamp(0.72rem, 1.6vw, 0.85rem);
+  --fs-sm: clamp(0.85rem, 1.9vw, 1rem);
+  --fs-base: clamp(0.95rem, 2.1vw, 1.15rem);
+  --fs-lg: clamp(1.1rem, 2.6vw, 1.4rem);
+  --fs-xl: clamp(1.35rem, 3.4vw, 1.9rem);
+  --fs-2xl: clamp(1.7rem, 4.6vw, 2.6rem);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font);
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--fs-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* l'app gère son propre scroll interne */
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Les composants routés doivent occuper toute la hauteur restante sous le header
+   et se comporter en conteneur flex, sinon la liste pousse la barre de navigation
+   (Précédent / Suivant) hors de l'écran. */
+app-register-page,
+app-checklist {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+/* Zone de contenu sous le header : occupe le reste de l'écran, sans déborder */
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: clamp(0.75rem, 2.5vw, 2rem);
+  overflow: hidden;
+}
+
+/* --- Boutons de base (surchargés localement au besoin) --- */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  background: var(--thales-blue);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  min-height: var(--touch);
+  padding: 0.7em 1.4em;
+  transition: transform 0.06s ease, opacity 0.15s ease, background 0.15s ease;
+}
+button:active {
+  transform: scale(0.98);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* --- Champs de saisie --- */
+input,
+select {
+  font-family: inherit;
+  font-size: var(--fs-base);
+  width: 100%;
+  min-height: var(--touch);
+  padding: 0.7em 0.9em;
+  border: 2px solid var(--thales-border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.15s ease;
+}
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--thales-cyan);
+}
+::placeholder {
+  color: var(--text-muted);
+}
+
+/* Masquer les flèches des inputs number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* --- Carte standard --- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--thales-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}

@@ -1,0 +1,327 @@
+/* =========================================================================
+   Écran checklist — layout en colonne, liste scrollable, texte qui s'adapte.
+   Correctif clé : plus de hauteurs fixes en %, le texte long ne déborde plus.
+   ========================================================================= */
+
+/* La page occupe toute la hauteur ; le bandeau de section sert d'en-tête. */
+.checklist-page {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Bandeau de section = en-tête principal, pleine largeur, bleu Thales */
+.section-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(1rem, 2.8vh, 1.6rem) clamp(1.1rem, 4vw, 2rem);
+  background: var(--thales-blue);
+  color: #fff;
+  border-bottom: 3px solid var(--thales-blue-dark);
+}
+.section-head h1 {
+  font-size: var(--fs-xl);
+  color: #fff;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.section-progress {
+  flex: 0 0 auto;
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--thales-blue);
+  background: var(--thales-cyan);
+  padding: 0.35em 0.95em;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* --- Liste des points de contrôle : lignes aérées, sans encadré --- */
+.check-list {
+  list-style: none;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  padding: 0 clamp(1.1rem, 4vw, 2rem);
+}
+
+.check-item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3.5vw, 2.25rem);
+  padding: clamp(1.15rem, 3vh, 1.75rem) 0;
+  border-bottom: 1px solid var(--thales-border);
+}
+.check-item:last-child {
+  border-bottom: none;
+}
+
+.check-texts {
+  flex: 1 1 auto;
+  min-width: 0; /* autorise le wrap dans un flex */
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.check-title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--thales-blue);
+  overflow-wrap: anywhere;
+}
+.check-desc {
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  color: var(--text);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* --- Boutons OK / NOK --- */
+.check-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: clamp(0.5rem, 2vw, 1rem);
+}
+.toggle {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(44px, 11vw, 60px);
+  height: clamp(44px, 11vw, 60px);
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #94a3b8;
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.toggle input:checked ~ .toggle-ok {
+  background: var(--ok);
+  color: #fff;
+  transform: scale(1.08);
+}
+.toggle input:checked ~ .toggle-nok {
+  background: var(--nok);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+/* --- Navigation bas de page --- */
+.checklist-nav {
+  flex: 0 0 auto;
+  display: flex;
+  gap: clamp(0.6rem, 2vw, 1.2rem);
+  padding: clamp(0.75rem, 2vh, 1.25rem) clamp(1.1rem, 4vw, 2rem);
+  border-top: 1px solid var(--thales-border);
+  background: var(--surface);
+}
+.btn-nav {
+  flex: 1 1 0;
+  background: var(--surface);
+  color: var(--thales-blue);
+  border: 2px solid var(--thales-blue);
+  font-size: var(--fs-base);
+  min-height: clamp(50px, 8vh, 62px);
+}
+.btn-nav:active {
+  background: var(--surface-muted);
+}
+.btn-nav--primary {
+  background: var(--thales-blue);
+  color: #fff;
+  border-color: var(--thales-blue);
+}
+.btn-nav--primary:active {
+  background: var(--thales-blue-dark);
+}
+
+/* =========================================================================
+   Popups / dialogues
+   ========================================================================= */
+.popup {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 3vw, 1.5rem);
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  transition: opacity 0.15s ease;
+}
+.visible {
+  visibility: visible;
+  opacity: 1;
+}
+.collapsed {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 560px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vh, 1.6rem);
+}
+.dialog h1 {
+  font-size: var(--fs-lg);
+  color: var(--thales-blue);
+  text-align: center;
+  line-height: 1.2;
+}
+.dialog p {
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Zone photo */
+.photo-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.photo-preview {
+  max-width: 100%;
+  max-height: 38vh;
+  border-radius: var(--radius);
+  border: 1px solid var(--thales-border);
+  object-fit: contain;
+}
+.photo-status {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--ok-dark);
+}
+.btn-take {
+  background: var(--thales-blue);
+  font-size: var(--fs-base);
+}
+.btn-take:active {
+  background: var(--thales-blue-dark);
+}
+
+/* Caméra web (fallback navigateur) */
+.web-camera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.web-camera video {
+  width: 100%;
+  max-height: 45vh;
+  border-radius: var(--radius);
+  background: #000;
+  object-fit: cover;
+}
+.btn-capture {
+  background: var(--thales-cyan-dark);
+  font-size: var(--fs-base);
+}
+.btn-capture:active {
+  background: var(--thales-blue);
+}
+
+/* Actions du dialogue photo */
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.dialog-actions button {
+  flex: 1 1 30%;
+  min-width: 120px;
+  font-size: var(--fs-sm);
+}
+/* Valider : action principale -> bleu Thales */
+.btn-ok {
+  background: var(--thales-blue);
+}
+.btn-ok:active {
+  background: var(--thales-blue-dark);
+}
+/* Annuler le choix : neutre (contour gris) */
+.btn-nok {
+  background: var(--surface);
+  color: var(--thales-blue);
+  border: 2px solid var(--thales-border);
+}
+.btn-nok:active {
+  background: var(--surface-muted);
+}
+/* Ignorer la photo : neutre (gris clair plein) */
+.btn-warn {
+  background: var(--surface-muted);
+  color: var(--text);
+  border: 1px solid var(--thales-border);
+}
+.btn-warn:active {
+  background: #e2e8f0;
+}
+
+/* Dialogue succès */
+.dialog--success {
+  text-align: center;
+  align-items: center;
+}
+.dialog--success .success-icon {
+  width: clamp(60px, 16vw, 84px);
+  height: clamp(60px, 16vw, 84px);
+  border-radius: 50%;
+  background: var(--ok);
+  color: #fff;
+  font-size: clamp(2rem, 8vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dialog--success .btn-primary {
+  width: 100%;
+  max-width: 320px;
+  background: var(--thales-blue);
+  font-size: var(--fs-lg);
+  min-height: clamp(52px, 8vh, 62px);
+}
+
+/* En portrait étroit, les points de contrôle passent en pleine largeur claire */
+@media (max-width: 480px) {
+  .check-item {
+    gap: 0.75rem;
+  }
+  .dialog-actions button {
+    flex: 1 1 100%;
+  }
+}

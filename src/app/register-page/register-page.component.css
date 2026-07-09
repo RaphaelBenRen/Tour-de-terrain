@@ -1,0 +1,101 @@
+.register {
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.1rem, 3vh, 1.8rem);
+  padding: clamp(1.5rem, 5vw, 3rem);
+  margin: auto;
+}
+
+.register-head {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--thales-cyan);
+}
+.register-head h1 {
+  font-size: var(--fs-xl);
+  color: var(--thales-blue);
+  line-height: 1.15;
+}
+.register-head p {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.field-label {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--thales-blue);
+}
+
+.btn-primary {
+  margin-top: 0.5rem;
+  width: 100%;
+  background: var(--thales-blue);
+  font-size: var(--fs-lg);
+  min-height: clamp(52px, 8vh, 64px);
+}
+.btn-primary:active {
+  background: var(--thales-blue-dark);
+}
+
+/* ---- Dialogue d'erreur ---- */
+.popup {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+}
+.visible {
+  visibility: visible;
+  opacity: 1;
+}
+.collapsed {
+  visibility: hidden;
+  opacity: 0;
+}
+.dialog {
+  width: 100%;
+  max-width: 460px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+}
+.dialog h1 {
+  font-size: var(--fs-lg);
+  color: var(--nok-dark);
+}
+.dialog p {
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+}
+.dialog--error {
+  border-top: 5px solid var(--nok);
+}

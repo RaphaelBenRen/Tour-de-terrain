@@ -1,0 +1,41 @@
+.app-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  padding: 0 clamp(1rem, 3vw, 2rem);
+  height: clamp(64px, 9vh, 100px);
+  background: var(--thales-blue);
+  border-bottom: 3px solid var(--thales-blue-dark);
+  color: #fff;
+}
+
+.app-logo {
+  height: clamp(38px, 6vh, 68px);
+  width: auto;
+  display: block;
+}
+
+.app-header-sep {
+  width: 1px;
+  align-self: stretch;
+  margin: clamp(0.75rem, 2vh, 1.25rem) 0;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.app-header-title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sur très petits écrans (téléphone portrait), on masque le titre pour garder le logo lisible */
+@media (max-width: 380px) {
+  .app-header-sep,
+  .app-header-title {
+    display: none;
+  }
+}
