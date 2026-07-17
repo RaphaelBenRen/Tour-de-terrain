@@ -1,0 +1,51 @@
+<div class="detail-page" *ngIf="record">
+  <header class="detail-head">
+    <div class="detail-title">
+      <h1>{{ record.username }}</h1>
+      <span class="detail-meta">
+        {{ record.type }} · UAP {{ record.uap }} · {{ record.dayName }} {{ record.date }}
+      </span>
+    </div>
+    <span class="detail-badge" [class.ok]="record.allCorrect" [class.nok]="!record.allCorrect">
+      {{ record.allCorrect ? 'Toutes justes' : 'Réponse(s) fausse(s)' }}
+    </span>
+  </header>
+
+  <div class="detail-body">
+    <section class="detail-section" *ngFor="let cl of record.checklists">
+      <h2>{{ cl.title }}</h2>
+
+      <div
+        class="detail-item"
+        [class.juste]="isCorrect(it)"
+        [class.fausse]="!isCorrect(it)"
+        *ngFor="let it of cl.listCheck"
+      >
+        <div class="detail-item-top">
+          <span class="detail-verdict" [class.juste]="isCorrect(it)" [class.fausse]="!isCorrect(it)">
+            {{ isCorrect(it) ? 'JUSTE' : 'FAUSSE' }}
+          </span>
+          <span class="detail-desc">{{ it.description }}</span>
+        </div>
+
+        <div class="detail-answer-line">
+          Réponse de l'opérateur :
+          <strong>{{ it.checked ? 'Conforme' : 'Non conforme' }}</strong>
+          <span class="detail-expected" *ngIf="!isCorrect(it)">
+            &nbsp;·&nbsp;attendu : {{ expectedLabel(it) }}
+          </span>
+        </div>
+
+        <div class="detail-photos" *ngIf="it.photos && it.photos.length">
+          <ng-container *ngFor="let fn of it.photos">
+            <img *ngIf="photoUrls[fn]" [src]="photoUrls[fn]" alt="Photo de non-conformité" />
+          </ng-container>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="detail-nav">
+    <button class="btn-nav btn-nav--primary" (click)="back()">Retour</button>
+  </nav>
+</div>

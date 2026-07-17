@@ -110,7 +110,8 @@ app-root {
    et se comporter en conteneur flex, sinon la liste pousse la barre de navigation
    (Précédent / Suivant) hors de l'écran. */
 app-register-page,
-app-checklist {
+app-checklist,
+app-form-detail {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;

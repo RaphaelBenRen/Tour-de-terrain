@@ -220,6 +220,43 @@
   border: 1px solid var(--thales-border);
   object-fit: contain;
 }
+/* Grille de vignettes (plusieurs photos) */
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  max-height: 40vh;
+  overflow-y: auto;
+  width: 100%;
+}
+.photo-thumb {
+  position: relative;
+  width: clamp(90px, 26vw, 130px);
+  height: clamp(90px, 26vw, 130px);
+}
+.photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--thales-border);
+}
+.photo-remove {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 28px;
+  height: 28px;
+  min-height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--nok);
+  color: #fff;
+  font-size: 0.9rem;
+  line-height: 1;
+  box-shadow: var(--shadow-sm);
+}
 .photo-status {
   font-size: var(--fs-sm);
   font-weight: 700;

@@ -106,11 +106,19 @@ export class ChecklistService {
       if (!Array.isArray(items)) continue;
       this.listCheckList.push({
         title,
-        listCheck: items.map((description: string) => ({
-          title: '',
-          description,
-          checked: null,
-        })),
+        listCheck: items.map((item: any) => {
+          // Une question peut être une simple chaîne (réponse attendue = Conforme)
+          // ou un objet { q|question|description, expected } pour un autre corrigé.
+          if (typeof item === 'string') {
+            return { title: '', description: item, checked: null, expected: true };
+          }
+          return {
+            title: '',
+            description: item.q ?? item.question ?? item.description ?? '',
+            checked: null,
+            expected: item.expected !== false,
+          };
+        }),
       });
     }
     this.errorParsingFile = false;

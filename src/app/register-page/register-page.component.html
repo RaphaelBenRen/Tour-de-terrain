@@ -1,3 +1,4 @@
+<!-- Erreur de lecture -->
 <div class="popup" [class]="checklistService.errorParsingFile ? 'visible' : 'collapsed'">
   <div class="dialog dialog--error">
     <h1>Erreur de lecture du fichier</h1>
@@ -5,34 +6,115 @@
   </div>
 </div>
 
-<div class="mainContainer register">
-  <form class="register-card card" (ngSubmit)="registerUser()">
-    <div class="register-head">
-      <h1>Tour de Terrain Industrie</h1>
-      <p>Identification de l'opérateur</p>
+<!-- Code d'accès (1468) pour consulter les réponses -->
+<div class="popup" [class]="showPasswordModal ? 'visible' : 'collapsed'">
+  <div class="dialog dialog--password">
+    <h1>Accès protégé</h1>
+    <p>Entrez le code à 4 chiffres pour consulter les réponses.</p>
+    <input
+      class="code-input"
+      type="password"
+      inputmode="numeric"
+      maxlength="4"
+      [(ngModel)]="passwordValue"
+      (keyup.enter)="submitPassword()"
+      placeholder="••••"
+      autocomplete="off"
+    />
+    <div class="code-error" *ngIf="passwordError">Code incorrect.</div>
+    <div class="dialog-actions">
+      <button type="button" class="btn-cancel" (click)="cancelPassword()">Annuler</button>
+      <button type="button" class="btn-validate" (click)="submitPassword()">Valider</button>
     </div>
+  </div>
+</div>
 
-    <label class="field">
-      <span class="field-label">Nom et prénom</span>
-      <input required type="text" name="username" [(ngModel)]="username" placeholder="Nom Prénom" />
-    </label>
+<div class="mainContainer register">
+  <div class="register-scroll">
+    <!-- Identification -->
+    <form class="register-card card" (ngSubmit)="registerUser()">
+      <div class="register-head">
+        <h1>Tour de Terrain Industrie</h1>
+        <p>Identification de l'opérateur</p>
+      </div>
 
-    <label class="field">
-      <span class="field-label">Unité (UAP)</span>
-      <select [(ngModel)]="uap" name="uap" id="uap">
-        <option value="1">UAP 1</option>
-        <option value="2">UAP 2</option>
-        <option value="3">UAP 3</option>
-      </select>
-    </label>
+      <label class="field">
+        <span class="field-label">Nom et prénom</span>
+        <input required type="text" name="username" [(ngModel)]="username" placeholder="Nom Prénom" />
+      </label>
 
-    <label class="field">
-      <span class="field-label">Type de production</span>
-      <select [(ngModel)]="typeForUap" name="type" id="typeProd">
-        <option *ngFor="let t of checklistService.availableTypes" [value]="t">{{ t }}</option>
-      </select>
-    </label>
+      <label class="field">
+        <span class="field-label">Unité (UAP)</span>
+        <select [(ngModel)]="uap" name="uap" id="uap">
+          <option value="1">UAP 1</option>
+          <option value="2">UAP 2</option>
+          <option value="3">UAP 3</option>
+        </select>
+      </label>
 
-    <button class="btn-primary" type="submit">Démarrer le TDT</button>
-  </form>
+      <label class="field">
+        <span class="field-label">Type de production</span>
+        <select [(ngModel)]="typeForUap" name="type" id="typeProd">
+          <option *ngFor="let t of checklistService.availableTypes" [value]="t">{{ t }}</option>
+        </select>
+      </label>
+
+      <button class="btn-primary" type="submit">Démarrer le TDT</button>
+    </form>
+
+    <!-- Calendrier des TDT complétés (filtré sur le type sélectionné) -->
+    <section class="calendar card">
+      <header class="calendar-head">
+        <button type="button" class="cal-arrow" (click)="prevWeek()" aria-label="Semaine précédente">‹</button>
+        <div class="calendar-title">
+          <span class="calendar-type">{{ typeForUap }}</span>
+          <span class="calendar-range">{{ weekRangeLabel }}</span>
+        </div>
+        <button type="button" class="cal-arrow" (click)="nextWeek()" aria-label="Semaine suivante">›</button>
+      </header>
+
+      <div class="calendar-grid">
+        <div class="cal-day" *ngFor="let day of weekDays">
+          <div class="cal-day-head">
+            <span class="cal-day-name">{{ day.name }}</span>
+            <span class="cal-day-date">{{ day.label }}</span>
+          </div>
+          <div class="cal-day-body">
+            <div class="cal-slot">
+              <div class="cal-slot-label">Matin</div>
+              <button
+                type="button"
+                class="cal-entry"
+                *ngFor="let rec of recordsForDaySlot(day.iso, 'matin')"
+                (click)="openRecord(rec)"
+              >
+                <span class="cal-dot" [class.ok]="rec.allCorrect" [class.nok]="!rec.allCorrect"></span>
+                <span class="cal-name">{{ rec.username }}</span>
+              </button>
+              <div class="cal-empty" *ngIf="recordsForDaySlot(day.iso, 'matin').length === 0">—</div>
+            </div>
+
+            <div class="cal-slot">
+              <div class="cal-slot-label">Après-midi</div>
+              <button
+                type="button"
+                class="cal-entry"
+                *ngFor="let rec of recordsForDaySlot(day.iso, 'aprem')"
+                (click)="openRecord(rec)"
+              >
+                <span class="cal-dot" [class.ok]="rec.allCorrect" [class.nok]="!rec.allCorrect"></span>
+                <span class="cal-name">{{ rec.username }}</span>
+              </button>
+              <div class="cal-empty" *ngIf="recordsForDaySlot(day.iso, 'aprem').length === 0">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calendar-legend">
+        <span><span class="cal-dot ok"></span> Toutes justes</span>
+        <span><span class="cal-dot nok"></span> Réponse(s) fausse(s)</span>
+      </div>
+    </section>
+  </div>
 </div>

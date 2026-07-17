@@ -1,17 +1,27 @@
 .register {
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: flex-start;
   overflow-y: auto;
+}
+
+.register-scroll {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vh, 1.8rem);
+  padding-bottom: 1rem;
 }
 
 .register-card {
   width: 100%;
   max-width: 560px;
+  align-self: center;
   display: flex;
   flex-direction: column;
   gap: clamp(1.1rem, 3vh, 1.8rem);
   padding: clamp(1.5rem, 5vw, 3rem);
-  margin: auto;
 }
 
 .register-head {
@@ -56,7 +66,159 @@
   background: var(--thales-blue-dark);
 }
 
-/* ---- Dialogue d'erreur ---- */
+/* =========================== Calendrier =========================== */
+.calendar {
+  padding: clamp(1rem, 3vw, 1.75rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.cal-arrow {
+  width: clamp(44px, 9vw, 52px);
+  min-height: clamp(44px, 9vw, 52px);
+  padding: 0;
+  font-size: 1.7rem;
+  line-height: 1;
+  background: var(--thales-blue);
+}
+.cal-arrow:active {
+  background: var(--thales-blue-dark);
+}
+.calendar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+.calendar-type {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--thales-blue);
+}
+.calendar-range {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+.cal-day {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--thales-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 190px;
+}
+.cal-day-head {
+  background: var(--surface-muted);
+  padding: 0.45rem 0.3rem;
+  text-align: center;
+  border-bottom: 1px solid var(--thales-border);
+}
+.cal-day-name {
+  display: block;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--thales-blue);
+}
+.cal-day-date {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+.cal-day-body {
+  flex: 1 1 auto;
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.cal-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.cal-slot + .cal-slot {
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--thales-border);
+}
+.cal-slot-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--thales-cyan-dark);
+}
+.cal-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: 42px;
+  padding: 0.45rem 0.5rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--thales-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-align: left;
+}
+.cal-entry:active {
+  background: var(--surface-muted);
+}
+.cal-dot {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  margin-top: 0.2em;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+.cal-dot.ok {
+  background: var(--ok);
+}
+.cal-dot.nok {
+  background: var(--nok);
+}
+.cal-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.15;
+}
+.cal-empty {
+  margin: auto 0;
+  text-align: center;
+  color: var(--thales-border);
+  font-size: var(--fs-sm);
+}
+.calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+.calendar-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* =========================== Popups / dialogues =========================== */
 .popup {
   position: fixed;
   inset: 0;
@@ -88,14 +250,64 @@
   gap: 1rem;
   text-align: center;
 }
-.dialog h1 {
-  font-size: var(--fs-lg);
-  color: var(--nok-dark);
-}
 .dialog p {
   font-size: var(--fs-base);
   color: var(--text-muted);
 }
 .dialog--error {
   border-top: 5px solid var(--nok);
+}
+.dialog--error h1 {
+  font-size: var(--fs-lg);
+  color: var(--nok-dark);
+}
+
+/* Code d'accès */
+.dialog--password {
+  border-top: 5px solid var(--thales-blue);
+}
+.dialog--password h1 {
+  font-size: var(--fs-lg);
+  color: var(--thales-blue);
+}
+.code-input {
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  letter-spacing: 0.5em;
+  text-align: center;
+  padding: 0.5em 0.3em;
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
+}
+.code-error {
+  color: var(--nok-dark);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+}
+.dialog--password .dialog-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+.btn-cancel {
+  flex: 1;
+  background: var(--surface-muted);
+  color: var(--text);
+  border: 1px solid var(--thales-border);
+}
+.btn-validate {
+  flex: 1;
+  background: var(--thales-blue);
+}
+.btn-validate:active {
+  background: var(--thales-blue-dark);
+}
+
+@media (max-width: 520px) {
+  .cal-day {
+    min-height: 160px;
+  }
+  .calendar-legend {
+    font-size: 0.7rem;
+  }
 }

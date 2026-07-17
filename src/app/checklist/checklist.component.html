@@ -9,19 +9,26 @@
       <button type="button" class="btn-capture" (click)="captureWebPhoto()">Capturer</button>
     </div>
 
-    <!-- Prise / aperçu de la photo -->
+    <!-- Prise / aperçu des photos (plusieurs possibles) -->
     <div class="photo-zone" *ngIf="!webCameraActive">
-      <img class="photo-preview" *ngIf="dataUrlItemSelected" [src]="dataUrlItemSelected" alt="Aperçu de la photo" />
-      <div class="photo-status" *ngIf="dataUrlItemSelected">✓ Photo enregistrée</div>
+      <div class="photo-grid" *ngIf="photosForItem.length">
+        <div class="photo-thumb" *ngFor="let p of photosForItem; let i = index">
+          <img [src]="p" alt="photo" />
+          <button type="button" class="photo-remove" (click)="removePhoto(i)" aria-label="Supprimer la photo">✕</button>
+        </div>
+      </div>
+      <div class="photo-status" *ngIf="photosForItem.length">
+        ✓ {{ photosForItem.length }} photo(s) prête(s)
+      </div>
       <button type="button" class="btn-take" (click)="takePicture()">
-        {{ dataUrlItemSelected ? 'Reprendre la photo' : 'Prendre une photo' }}
+        {{ photosForItem.length ? 'Ajouter une photo' : 'Prendre une photo' }}
       </button>
     </div>
 
     <div class="dialog-actions">
       <button class="btn-nok" (click)="itemSelected.checked = true; closePopup()">Annuler le choix</button>
       <button class="btn-warn" (click)="closePopup()">Ignorer la photo</button>
-      <button class="btn-ok" [disabled]="!dataUrlItemSelected" (click)="validate()">Valider</button>
+      <button class="btn-ok" [disabled]="!photosForItem.length" (click)="validate()">Valider</button>
     </div>
   </div>
 </div>
