@@ -6,9 +6,12 @@
         {{ record.type }} · UAP {{ record.uap }} · {{ record.dayName }} {{ record.date }}
       </span>
     </div>
-    <span class="detail-badge" [class.ok]="record.allCorrect" [class.nok]="!record.allCorrect">
-      {{ record.allCorrect ? 'Toutes justes' : 'Réponse(s) fausse(s)' }}
-    </span>
+    <span
+      class="detail-badge"
+      [class.ok]="record.allCorrect"
+      [class.nok]="!record.allCorrect"
+      aria-hidden="true"
+    ></span>
   </header>
 
   <div class="detail-body">
@@ -21,12 +24,7 @@
         [class.fausse]="!isCorrect(it)"
         *ngFor="let it of cl.listCheck"
       >
-        <div class="detail-item-top">
-          <span class="detail-verdict" [class.juste]="isCorrect(it)" [class.fausse]="!isCorrect(it)">
-            {{ isCorrect(it) ? 'JUSTE' : 'FAUSSE' }}
-          </span>
-          <span class="detail-desc">{{ it.description }}</span>
-        </div>
+        <div class="detail-desc">{{ it.description }}</div>
 
         <div class="detail-answer-line">
           Réponse de l'opérateur :

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-tdt-mediastore" version="1.0.0">
+  <name>TdtMediaStore</name>
+  <description>Enregistre un fichier dans le dossier public Téléchargements (MediaStore) pour un accès USB.</description>
+  <license>TAS</license>
+
+  <js-module src="www/tdtMediaStore.js" name="tdtMediaStore">
+    <clobbers target="cordova.plugins.tdtMediaStore" />
+  </js-module>
+
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="TdtMediaStore">
+        <param name="android-package" value="com.tas.tdt.TdtMediaStore" />
+      </feature>
+    </config-file>
+    <source-file src="src/android/TdtMediaStore.java" target-dir="src/com/tas/tdt" />
+  </platform>
+</plugin>

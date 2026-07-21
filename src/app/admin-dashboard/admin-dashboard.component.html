@@ -1,0 +1,163 @@
+<div class="admin-page">
+  <!-- En-tête -->
+  <header class="admin-head">
+    <div class="admin-title">
+      <h1>Espace administrateur</h1>
+      <span class="admin-user">Connecté : {{ admin.currentUser }}</span>
+    </div>
+    <button type="button" class="btn-logout" (click)="logout()">Déconnexion</button>
+  </header>
+
+  <!-- Onglets -->
+  <nav class="admin-tabs">
+    <button type="button" [class.active]="tab === 'historique'" (click)="tab = 'historique'">
+      Historique
+    </button>
+    <button type="button" [class.active]="tab === 'admins'" (click)="tab = 'admins'">
+      Admins
+    </button>
+    <button type="button" [class.active]="tab === 'code'" (click)="tab = 'code'">
+      Code d'accès
+    </button>
+  </nav>
+
+  <div class="admin-body">
+    <!-- ============ HISTORIQUE ============ -->
+    <section *ngIf="tab === 'historique'" class="panel">
+      <div class="filters">
+        <label>
+          <span>Type</span>
+          <select [(ngModel)]="typeFilter">
+            <option value="">Tous</option>
+            <option *ngFor="let t of availableTypes" [value]="t">{{ t }}</option>
+          </select>
+        </label>
+        <label>
+          <span>UAP</span>
+          <select [(ngModel)]="uapFilter">
+            <option value="">Toutes</option>
+            <option value="1">UAP 1</option>
+            <option value="2">UAP 2</option>
+            <option value="3">UAP 3</option>
+          </select>
+        </label>
+        <label>
+          <span>Du</span>
+          <input type="date" [(ngModel)]="dateFrom" />
+        </label>
+        <label>
+          <span>Au</span>
+          <input type="date" [(ngModel)]="dateTo" />
+        </label>
+        <label class="filter-search">
+          <span>Opérateur</span>
+          <input type="text" [(ngModel)]="search" placeholder="Rechercher un nom…" />
+        </label>
+        <button type="button" class="btn-reset" (click)="resetFilters()">Réinitialiser</button>
+      </div>
+
+      <div class="export-bar">
+        <div class="export-count">{{ filteredRecords.length }} / {{ records.length }} tentative(s)</div>
+        <div class="export-actions">
+          <button type="button" class="btn-export" [disabled]="exporting" (click)="exportFiltered()">
+            Exporter la sélection
+          </button>
+          <button type="button" class="btn-export btn-export--all" [disabled]="exporting" (click)="exportAll()">
+            Exporter tout (CSV)
+          </button>
+        </div>
+      </div>
+      <div class="export-msg" *ngIf="exportMsg">{{ exportMsg }}</div>
+
+      <div class="table-wrap">
+        <table class="records-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Créneau</th>
+              <th>Opérateur</th>
+              <th>UAP</th>
+              <th>Type</th>
+              <th>Résultat</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of filteredRecords">
+              <td>{{ r.date }} · {{ heure(r) }}</td>
+              <td>{{ creneau(r) }}</td>
+              <td class="td-name">{{ r.username }}</td>
+              <td>UAP {{ r.uap }}</td>
+              <td>{{ r.type }}</td>
+              <td>
+                <span class="pill" [class.ok]="r.allCorrect" [class.nok]="!r.allCorrect">
+                  {{ r.allCorrect ? 'Toutes justes' : 'Fausse(s)' }}
+                </span>
+              </td>
+              <td><button type="button" class="btn-view" (click)="openDetail(r)">Voir</button></td>
+            </tr>
+            <tr *ngIf="filteredRecords.length === 0">
+              <td colspan="7" class="empty-row">Aucune tentative.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ ADMINS ============ -->
+    <section *ngIf="tab === 'admins'" class="panel">
+      <h2>Comptes administrateurs</h2>
+      <div class="admin-list">
+        <div class="admin-row admin-row--head">
+          <span>Utilisateur</span>
+          <span>Nouveau mot de passe</span>
+          <span></span>
+        </div>
+        <div class="admin-row" *ngFor="let a of admin.admins">
+          <span class="admin-name">{{ a.user }}</span>
+          <input type="text" [(ngModel)]="pwEdits[a.user]" placeholder="Nouveau mot de passe" />
+          <div class="admin-row-actions">
+            <button type="button" class="btn-small" (click)="changePw(a.user)">Modifier</button>
+            <button type="button" class="btn-small btn-danger" (click)="removeAdmin(a.user)">Suppr.</button>
+          </div>
+        </div>
+      </div>
+
+      <h2>Ajouter un administrateur</h2>
+      <div class="add-admin">
+        <input type="text" [(ngModel)]="newAdminUser" placeholder="Utilisateur" />
+        <input type="text" [(ngModel)]="newAdminPassword" placeholder="Mot de passe" />
+        <button type="button" class="btn-validate" (click)="addAdmin()">Ajouter</button>
+      </div>
+
+      <div class="admin-msg" *ngIf="adminMsg">{{ adminMsg }}</div>
+    </section>
+
+    <!-- ============ CODE D'ACCÈS FORMULAIRE ============ -->
+    <section *ngIf="tab === 'code'" class="panel">
+      <h2>Code d'accès aux formulaires</h2>
+      <p class="panel-desc">
+        Ce code est demandé pour consulter les réponses d'un TDT depuis le calendrier.
+        Les administrateurs peuvent toujours le voir et le modifier ici.
+      </p>
+
+      <div class="code-current">
+        <span class="code-label">Code actuel :</span>
+        <span class="code-value">{{ showFormCode ? admin.getFormAccessCode() : '••••' }}</span>
+        <button type="button" class="btn-small" (click)="showFormCode = !showFormCode">
+          {{ showFormCode ? 'Masquer' : 'Afficher' }}
+        </button>
+      </div>
+
+      <div class="code-change">
+        <input type="text" [(ngModel)]="newFormCode" placeholder="Nouveau code" />
+        <button type="button" class="btn-validate" (click)="saveCode()">Enregistrer</button>
+      </div>
+      <div class="admin-msg" *ngIf="codeMsg">{{ codeMsg }}</div>
+    </section>
+  </div>
+
+  <nav class="admin-nav">
+    <button type="button" class="btn-back" (click)="logout()">Retour à l'accueil</button>
+  </nav>
+</div>

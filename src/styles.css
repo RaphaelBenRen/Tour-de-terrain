@@ -111,7 +111,8 @@ app-root {
    (Précédent / Suivant) hors de l'écran. */
 app-register-page,
 app-checklist,
-app-form-detail {
+app-form-detail,
+app-admin-dashboard {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;

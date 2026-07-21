@@ -1,0 +1,23 @@
+{
+  "name": "cordova-plugin-tdt-mediastore",
+  "version": "1.0.0",
+  "description": "Enregistre un fichier texte dans le dossier public Téléchargements (MediaStore) pour un accès USB.",
+  "cordova": {
+    "id": "cordova-plugin-tdt-mediastore",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=9.0.0"
+    }
+  ],
+  "author": "TAS",
+  "license": "TAS"
+}

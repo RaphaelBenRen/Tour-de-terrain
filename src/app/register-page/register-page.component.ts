@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChecklistService } from '../checklist.service';
 import { HistoryService } from '../services/history.service';
+import { AdminService } from '../services/admin.service';
 import { TdtRecord } from '../checklist';
 
 interface WeekDay {
@@ -25,19 +26,25 @@ export class RegisterPageComponent implements OnInit {
   records: TdtRecord[] = [];
   weekStart: Date = this.getMonday(new Date());
 
-  // --- Contrôle d'accès (code 1468) ---
-  private readonly ACCESS_CODE = '1468';
+  // --- Contrôle d'accès aux réponses (code configurable) ---
   showPasswordModal = false;
   passwordValue = '';
   passwordError = false;
   private pendingRecord: TdtRecord | null = null;
+
+  // --- Connexion admin ---
+  showAdminModal = false;
+  adminUser = '';
+  adminPassword = '';
+  adminError = false;
 
   private readonly dayNames = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
 
   constructor(
     private router: Router,
     public checklistService: ChecklistService,
-    private history: HistoryService
+    private history: HistoryService,
+    private admin: AdminService
   ) {
     this.typeForUap = checklistService.availableTypes[0] || '';
   }
@@ -115,13 +122,36 @@ export class RegisterPageComponent implements OnInit {
   }
 
   submitPassword() {
-    if (this.passwordValue === this.ACCESS_CODE && this.pendingRecord) {
+    if (this.passwordValue === this.admin.getFormAccessCode() && this.pendingRecord) {
       this.history.selectedRecord = this.pendingRecord;
       this.showPasswordModal = false;
       this.router.navigate(['/form-detail']);
     } else {
       this.passwordError = true;
       this.passwordValue = '';
+    }
+  }
+
+  // ---------- Connexion admin ----------
+  openAdminLogin() {
+    this.adminUser = '';
+    this.adminPassword = '';
+    this.adminError = false;
+    this.showAdminModal = true;
+  }
+
+  cancelAdminLogin() {
+    this.showAdminModal = false;
+    this.adminError = false;
+  }
+
+  submitAdminLogin() {
+    if (this.admin.login(this.adminUser, this.adminPassword)) {
+      this.showAdminModal = false;
+      this.router.navigate(['/admin']);
+    } else {
+      this.adminError = true;
+      this.adminPassword = '';
     }
   }
 

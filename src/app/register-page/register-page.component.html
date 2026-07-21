@@ -29,8 +29,39 @@
   </div>
 </div>
 
+<!-- Connexion administrateur -->
+<div class="popup" [class]="showAdminModal ? 'visible' : 'collapsed'">
+  <div class="dialog dialog--password">
+    <h1>Espace administrateur</h1>
+    <p>Connectez-vous pour gérer les admins et l'historique.</p>
+    <label class="field field--left">
+      <span class="field-label">Utilisateur</span>
+      <input type="text" [(ngModel)]="adminUser" name="adminUser" placeholder="admin" autocomplete="off" />
+    </label>
+    <label class="field field--left">
+      <span class="field-label">Mot de passe</span>
+      <input
+        type="password"
+        [(ngModel)]="adminPassword"
+        name="adminPassword"
+        (keyup.enter)="submitAdminLogin()"
+        autocomplete="off"
+      />
+    </label>
+    <div class="code-error" *ngIf="adminError">Identifiants incorrects.</div>
+    <div class="dialog-actions">
+      <button type="button" class="btn-cancel" (click)="cancelAdminLogin()">Annuler</button>
+      <button type="button" class="btn-validate" (click)="submitAdminLogin()">Se connecter</button>
+    </div>
+  </div>
+</div>
+
 <div class="mainContainer register">
   <div class="register-scroll">
+    <div class="admin-bar">
+      <button type="button" class="btn-admin" (click)="openAdminLogin()">Espace admin</button>
+    </div>
+
     <!-- Identification -->
     <form class="register-card card" (ngSubmit)="registerUser()">
       <div class="register-head">

@@ -42,14 +42,13 @@
   font-size: var(--fs-sm);
   color: var(--thales-cyan);
 }
+/* Indicateur global : simple pastille de couleur (sans texte) */
 .detail-badge {
   flex: 0 0 auto;
-  font-size: var(--fs-sm);
-  font-weight: 700;
-  color: #fff;
-  padding: 0.4em 0.9em;
-  border-radius: 999px;
-  white-space: nowrap;
+  width: clamp(22px, 5.5vw, 28px);
+  height: clamp(22px, 5.5vw, 28px);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.65);
 }
 .detail-badge.ok {
   background: var(--ok);
@@ -95,40 +94,13 @@
   border-left-color: var(--nok);
   background: rgba(239, 68, 68, 0.07);
 }
-.detail-item-top {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-}
-/* Badge verdict JUSTE / FAUSSE */
-.detail-verdict {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: clamp(66px, 18vw, 88px);
-  padding: 0.3em 0.6em;
-  border-radius: 999px;
-  font-size: var(--fs-sm);
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: #fff;
-}
-.detail-verdict.juste {
-  background: var(--ok);
-}
-.detail-verdict.fausse {
-  background: var(--nok);
-}
 .detail-desc {
-  flex: 1 1 auto;
   font-size: var(--fs-base);
   line-height: 1.45;
   overflow-wrap: anywhere;
 }
 .detail-answer-line {
   margin-top: 0.4rem;
-  padding-left: calc(clamp(66px, 18vw, 88px) + 0.75rem);
   font-size: var(--fs-sm);
   color: var(--text-muted);
 }
@@ -144,7 +116,6 @@
   flex-wrap: wrap;
   gap: 0.6rem;
   margin-top: 0.6rem;
-  padding-left: calc(clamp(66px, 18vw, 88px) + 0.75rem);
 }
 .detail-photos img {
   width: clamp(100px, 30vw, 160px);

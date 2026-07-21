@@ -41,6 +41,7 @@
     "cordova-plugin-camera": "^7.0.0",
     "cordova-plugin-file": "^8.1.0",
     "cordova-plugin-powermanagement": "^1.0.5",
+    "cordova-plugin-tdt-mediastore": "file:local-plugins/cordova-plugin-tdt-mediastore",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -67,7 +68,8 @@
       "cordova-plugin-powermanagement": {},
       "cordova-plugin-file": {
         "ANDROIDX_WEBKIT_VERSION": "1.4.0"
-      }
+      },
+      "cordova-plugin-tdt-mediastore": {}
     }
   }
 }
