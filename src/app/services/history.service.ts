@@ -23,9 +23,15 @@ export class HistoryService {
       .replace(/^_+|_+$/g, '');
   }
 
-  /** Construit un identifiant déterministe : un TDT par (type, date, opérateur). */
+  /**
+   * Construit un identifiant UNIQUE par TDT complété (type + date + opérateur +
+   * horodatage + aléa). Deux TDT du même opérateur le même jour (ex. matin et
+   * après-midi) ont ainsi des ID distincts -> pas de doublon ni d'écrasement,
+   * et déduplication fiable côté dashboard Dataiku.
+   */
   buildId(type: string, dateIso: string, username: string): string {
-    return `${this.slug(type)}_${dateIso}_${this.slug(username)}`;
+    const rnd = Math.random().toString(36).slice(2, 6);
+    return `${this.slug(type)}_${dateIso}_${this.slug(username)}_${Date.now()}${rnd}`;
   }
 
   /** Enregistre (ou remplace) un TDT complété. */

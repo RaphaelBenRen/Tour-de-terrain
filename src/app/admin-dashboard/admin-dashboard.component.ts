@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from '../services/admin.service';
 import { HistoryService } from '../services/history.service';
 import { ChecklistService } from '../checklist.service';
 import { ExportService } from '../services/export.service';
@@ -12,7 +11,6 @@ import { TdtRecord } from '../checklist';
   styleUrls: ['./admin-dashboard.component.css'],
 })
 export class AdminDashboardComponent implements OnInit {
-  tab: 'historique' | 'admins' | 'code' = 'historique';
   records: TdtRecord[] = [];
 
   // Filtres historique
@@ -22,23 +20,11 @@ export class AdminDashboardComponent implements OnInit {
   dateTo = '';
   search = '';
 
-  // Gestion admins
-  newAdminUser = '';
-  newAdminPassword = '';
-  adminMsg = '';
-  pwEdits: { [user: string]: string } = {};
-
-  // Code d'accès formulaire
-  newFormCode = '';
-  codeMsg = '';
-  showFormCode = false;
-
   // Export
   exporting = false;
   exportMsg = '';
 
   constructor(
-    public admin: AdminService,
     private history: HistoryService,
     private checklist: ChecklistService,
     private exportSvc: ExportService,
@@ -46,14 +32,9 @@ export class AdminDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (!this.admin.loggedIn) {
-      this.router.navigate(['/register']);
-      return;
-    }
     this.history.loadRecords().then(
       (r) => (this.records = (r || []).sort((a, b) => b.savedAt.localeCompare(a.savedAt)))
     );
-    this.newFormCode = this.admin.getFormAccessCode();
   }
 
   get availableTypes(): string[] {
@@ -121,36 +102,8 @@ export class AdminDashboardComponent implements OnInit {
       .finally(() => (this.exporting = false));
   }
 
-  // ---------- Gestion admins ----------
-  addAdmin() {
-    const res = this.admin.addAdmin(this.newAdminUser, this.newAdminPassword);
-    this.adminMsg = res.ok ? 'Admin ajouté.' : res.error || '';
-    if (res.ok) {
-      this.newAdminUser = '';
-      this.newAdminPassword = '';
-    }
-  }
-
-  changePw(user: string) {
-    const res = this.admin.changeAdminPassword(user, this.pwEdits[user]);
-    this.adminMsg = res.ok ? 'Mot de passe de ' + user + ' modifié.' : res.error || '';
-    if (res.ok) this.pwEdits[user] = '';
-  }
-
-  removeAdmin(user: string) {
-    const res = this.admin.removeAdmin(user);
-    this.adminMsg = res.ok ? 'Admin ' + user + ' supprimé.' : res.error || '';
-  }
-
-  // ---------- Code d'accès formulaire ----------
-  saveCode() {
-    const res = this.admin.setFormAccessCode(this.newFormCode);
-    this.codeMsg = res.ok ? '✓ Code enregistré.' : res.error || '';
-  }
-
-  // ---------- Divers ----------
-  logout() {
-    this.admin.logout();
+  // ---------- Navigation ----------
+  goHome() {
     this.router.navigate(['/register']);
   }
 }

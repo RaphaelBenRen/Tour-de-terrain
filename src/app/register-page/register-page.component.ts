@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChecklistService } from '../checklist.service';
 import { HistoryService } from '../services/history.service';
-import { AdminService } from '../services/admin.service';
 import { TdtRecord } from '../checklist';
 
 interface WeekDay {
@@ -26,25 +25,12 @@ export class RegisterPageComponent implements OnInit {
   records: TdtRecord[] = [];
   weekStart: Date = this.getMonday(new Date());
 
-  // --- Contrôle d'accès aux réponses (code configurable) ---
-  showPasswordModal = false;
-  passwordValue = '';
-  passwordError = false;
-  private pendingRecord: TdtRecord | null = null;
-
-  // --- Connexion admin ---
-  showAdminModal = false;
-  adminUser = '';
-  adminPassword = '';
-  adminError = false;
-
   private readonly dayNames = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
 
   constructor(
     private router: Router,
     public checklistService: ChecklistService,
-    private history: HistoryService,
-    private admin: AdminService
+    private history: HistoryService
   ) {
     this.typeForUap = checklistService.availableTypes[0] || '';
   }
@@ -106,53 +92,15 @@ export class RegisterPageComponent implements OnInit {
     this.weekStart = d;
   }
 
-  // ---------- Accès aux réponses (code 1468) ----------
+  // ---------- Accès aux réponses (sans mot de passe) ----------
   openRecord(record: TdtRecord) {
-    this.pendingRecord = record;
-    this.passwordValue = '';
-    this.passwordError = false;
-    this.showPasswordModal = true;
+    this.history.selectedRecord = record;
+    this.router.navigate(['/form-detail']);
   }
 
-  cancelPassword() {
-    this.showPasswordModal = false;
-    this.pendingRecord = null;
-    this.passwordValue = '';
-    this.passwordError = false;
-  }
-
-  submitPassword() {
-    if (this.passwordValue === this.admin.getFormAccessCode() && this.pendingRecord) {
-      this.history.selectedRecord = this.pendingRecord;
-      this.showPasswordModal = false;
-      this.router.navigate(['/form-detail']);
-    } else {
-      this.passwordError = true;
-      this.passwordValue = '';
-    }
-  }
-
-  // ---------- Connexion admin ----------
-  openAdminLogin() {
-    this.adminUser = '';
-    this.adminPassword = '';
-    this.adminError = false;
-    this.showAdminModal = true;
-  }
-
-  cancelAdminLogin() {
-    this.showAdminModal = false;
-    this.adminError = false;
-  }
-
-  submitAdminLogin() {
-    if (this.admin.login(this.adminUser, this.adminPassword)) {
-      this.showAdminModal = false;
-      this.router.navigate(['/admin']);
-    } else {
-      this.adminError = true;
-      this.adminPassword = '';
-    }
+  // ---------- Page d'export ----------
+  goToExport() {
+    this.router.navigate(['/export']);
   }
 
   // ---------- Utilitaires date ----------

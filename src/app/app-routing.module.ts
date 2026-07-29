@@ -24,7 +24,7 @@ const routes: Routes = [
     component: FormDetailComponent,
   },
   {
-    path: 'admin',
+    path: 'export',
     component: AdminDashboardComponent,
   },
 ];

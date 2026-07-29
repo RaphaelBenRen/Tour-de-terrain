@@ -12,7 +12,7 @@ export class ExportService {
   /** CSV tidy : 1 ligne par question/réponse, prêt pour Excel / Dataiku. */
   buildCsv(records: TdtRecord[]): string {
     const header = [
-      'Date', 'Heure', 'Creneau', 'Operateur', 'UAP', 'Type',
+      'Tdt_ID', 'Date', 'Heure', 'Creneau', 'Operateur', 'UAP', 'Type',
       'Theme', 'Question', 'Reponse', 'Attendu', 'Resultat', 'Photos',
     ];
     const rows: string[] = [header.join(this.SEP)];
@@ -31,7 +31,7 @@ export class ExportService {
           const photos = (it.photos || []).join(' | ');
           rows.push(
             [
-              r.date, heure, creneau, r.username, 'UAP' + r.uap, r.type,
+              r.id, r.date, heure, creneau, r.username, 'UAP' + r.uap, r.type,
               cl.title, it.description || '', reponse, attendu, resultat, photos,
             ]
               .map((v) => this.esc(v))
