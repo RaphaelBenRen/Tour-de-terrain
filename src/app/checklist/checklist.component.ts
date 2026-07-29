@@ -250,7 +250,7 @@ export class ChecklistComponent {
     const actualDate = new Date().toLocaleDateString('fr').replaceAll('/', '-');
     const item = this.itemSelected.description || '';
     const base =
-      dayOfWeek + '_' + actualDate + '_' +
+      dayOfWeek + '_' + actualDate + '_UAP' + this.checkListService.uap + '_' +
       this.activeChecklist.title.replaceAll(' ', '_') + '-' + item.replaceAll(' ', '_');
     return base
       .normalize('NFD')

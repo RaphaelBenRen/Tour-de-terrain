@@ -38,7 +38,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   get availableTypes(): string[] {
-    return this.checklist.availableTypes;
+    return this.checklist.allTypes;
   }
 
   // ---------- Historique ----------

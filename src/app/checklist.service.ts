@@ -11,17 +11,19 @@ import { PlatformService } from './services/platform.service';
 export class ChecklistService {
   listCheckList: Checklist[] = [];
   username: string = '';
-  uap: number = 0;
+  uap: number = 1;
   typeForUap: string = '';
   errorParsingFile: boolean = false;
 
-  /** Ensemble des checklists par type de production : { TYPE: { thème: [questions] } } */
-  allData: any = {};
-  /** Types de production proposés (clés de allData). */
-  availableTypes: string[] = [];
+  /**
+   * Ensemble des checklists PAR UAP :
+   * { "1": { TYPE: { thème: [questions] } }, "2": {...}, "3": {...} }
+   * Les questionnaires peuvent donc différer d'un UAP à l'autre.
+   */
+  allByUap: { [uap: string]: any } = {};
   /** Type de production actuellement sélectionné. */
   selectedType: string = '';
-  /** Contenu (thème -> questions) du type sélectionné (sert à `restartService`). */
+  /** Contenu (thème -> questions) du type + UAP sélectionnés (sert à `restartService`). */
   checklistData: any = {};
 
   constructor(private file: File, private platform: PlatformService) {
@@ -61,37 +63,88 @@ export class ChecklistService {
   }
 
   /**
-   * Charge l'ensemble des checklists (par type). Accepte le format imbriqué
-   * { TYPE: { thème: [q] } } ou l'ancien format plat { thème: [q] }.
+   * Charge l'ensemble des checklists et les normalise au format PAR UAP.
+   * Accepte 3 formats (pour rétro-compatibilité) :
+   *   - par UAP  : { "1": { TYPE: { thème:[q] } }, ... }
+   *   - par type : { TYPE: { thème:[q] } }         -> appliqué aux 3 UAP
+   *   - plat     : { thème:[q] }                   -> un seul type « Checklist »
    */
   private setAllData(data: any): boolean {
-    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    const byUap = this.normalizeToByUap(data);
+    if (!byUap) {
       this.errorParsingFile = true;
       return false;
     }
-    const keys = Object.keys(data);
-    if (!keys.length) {
-      this.errorParsingFile = true;
-      return false;
-    }
-    // Format plat (ancien) si les valeurs de 1er niveau sont des tableaux.
-    const flat = Array.isArray(data[keys[0]]);
-    this.allData = flat ? { Checklist: data } : data;
-    this.availableTypes = Object.keys(this.allData);
-    if (!this.availableTypes.includes(this.selectedType)) {
-      this.selectedType = this.availableTypes[0];
+    this.allByUap = byUap;
+    // Cale l'UAP courant sur une valeur existante.
+    const types = this.getTypes(this.uap);
+    if (!types.includes(this.selectedType)) {
+      this.selectedType = types[0] || '';
     }
     this.setType(this.selectedType);
+    this.errorParsingFile = false;
     return true;
   }
 
-  /** Sélectionne un type de production et (re)construit sa checklist. */
+  /** Détecte le format des données et renvoie toujours { uap: { type: {thème:[q]} } }. */
+  private normalizeToByUap(data: any): { [uap: string]: any } | null {
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
+    const keys = Object.keys(data);
+    if (!keys.length) return null;
+
+    const first = data[keys[0]];
+    // Format plat { thème: [q] } -> un seul type « Checklist », pour les 3 UAP.
+    if (Array.isArray(first)) {
+      const wrapped = { Checklist: data };
+      return { '1': wrapped, '2': wrapped, '3': wrapped };
+    }
+    if (!first || typeof first !== 'object') return null;
+
+    const subKeys = Object.keys(first);
+    const firstSub = subKeys.length ? first[subKeys[0]] : null;
+    // Format par type { TYPE: { thème:[q] } } -> même jeu pour les 3 UAP.
+    if (Array.isArray(firstSub)) {
+      return { '1': data, '2': data, '3': data };
+    }
+    // Format par UAP { UAP: { TYPE: { thème:[q] } } }.
+    return data;
+  }
+
+  /** Clé UAP existante la plus proche (repli sur la première disponible). */
+  private resolveUapKey(uap: number | string): string {
+    const k = String(uap);
+    if (this.allByUap[k]) return k;
+    return Object.keys(this.allByUap)[0] || '';
+  }
+
+  /** Types de production disponibles pour un UAP donné. */
+  getTypes(uap: number | string): string[] {
+    const d = this.allByUap[this.resolveUapKey(uap)];
+    return d ? Object.keys(d) : [];
+  }
+
+  /** Union de tous les types, tous UAP confondus (pour les filtres). */
+  get allTypes(): string[] {
+    const set = new Set<string>();
+    for (const uap of Object.keys(this.allByUap)) {
+      for (const t of Object.keys(this.allByUap[uap] || {})) set.add(t);
+    }
+    return Array.from(set);
+  }
+
+  /** Types disponibles pour l'UAP actuellement sélectionné. */
+  get availableTypes(): string[] {
+    return this.getTypes(this.uap);
+  }
+
+  /** Sélectionne un type de production (pour l'UAP courant) et (re)construit sa checklist. */
   setType(type: string) {
-    if (!this.availableTypes.includes(type)) {
-      type = this.availableTypes[0] || '';
+    const typesData = this.allByUap[this.resolveUapKey(this.uap)] || {};
+    if (!typesData[type]) {
+      type = Object.keys(typesData)[0] || '';
     }
     this.selectedType = type;
-    this.buildFromData(this.allData[type] || {});
+    this.buildFromData(typesData[type] || {});
   }
 
   /** Construit `listCheckList` à partir d'un objet { thème -> questions }. */
@@ -127,7 +180,7 @@ export class ChecklistService {
 
   restartService() {
     this.username = '';
-    this.uap = 0;
+    this.uap = 1;
     this.setType(this.selectedType);
   }
   exportToCSV(fileName: string) {

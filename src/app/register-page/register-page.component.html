@@ -26,7 +26,7 @@
 
       <label class="field">
         <span class="field-label">Unité (UAP)</span>
-        <select [(ngModel)]="uap" name="uap" id="uap">
+        <select [(ngModel)]="uap" name="uap" id="uap" (ngModelChange)="onUapChange()">
           <option value="1">UAP 1</option>
           <option value="2">UAP 2</option>
           <option value="3">UAP 3</option>
@@ -36,7 +36,7 @@
       <label class="field">
         <span class="field-label">Type de production</span>
         <select [(ngModel)]="typeForUap" name="type" id="typeProd">
-          <option *ngFor="let t of checklistService.availableTypes" [value]="t">{{ t }}</option>
+          <option *ngFor="let t of typesForCurrentUap" [value]="t">{{ t }}</option>
         </select>
       </label>
 
@@ -48,7 +48,7 @@
       <header class="calendar-head">
         <button type="button" class="cal-arrow" (click)="prevWeek()" aria-label="Semaine précédente">‹</button>
         <div class="calendar-title">
-          <span class="calendar-type">{{ typeForUap }}</span>
+          <span class="calendar-type">UAP {{ uap }} · {{ typeForUap }}</span>
           <span class="calendar-range">{{ weekRangeLabel }}</span>
         </div>
         <button type="button" class="cal-arrow" (click)="nextWeek()" aria-label="Semaine suivante">›</button>

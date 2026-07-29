@@ -32,11 +32,24 @@ export class RegisterPageComponent implements OnInit {
     public checklistService: ChecklistService,
     private history: HistoryService
   ) {
-    this.typeForUap = checklistService.availableTypes[0] || '';
+    this.typeForUap = this.checklistService.getTypes(this.uap)[0] || '';
   }
 
   ngOnInit() {
     this.history.loadRecords().then((r) => (this.records = r || []));
+  }
+
+  /** Types de production disponibles pour l'UAP actuellement choisi. */
+  get typesForCurrentUap(): string[] {
+    return this.checklistService.getTypes(this.uap);
+  }
+
+  /** Quand on change d'UAP : on réaligne le type sélectionné sur ceux de l'UAP. */
+  onUapChange() {
+    const types = this.typesForCurrentUap;
+    if (!types.includes(this.typeForUap)) {
+      this.typeForUap = types[0] || '';
+    }
   }
 
   // ---------- Démarrage du TDT ----------
@@ -66,10 +79,16 @@ export class RegisterPageComponent implements OnInit {
     return `${days[0].label} → ${days[4].label}`;
   }
 
-  /** TDT d'un jour et d'un créneau (matin / après-midi) pour le type sélectionné. */
+  /** TDT d'un jour et d'un créneau (matin / après-midi) pour l'UAP + type sélectionnés. */
   recordsForDaySlot(iso: string, slot: 'matin' | 'aprem'): TdtRecord[] {
     return this.records
-      .filter((r) => r.type === this.typeForUap && r.date === iso && this.slotOf(r) === slot)
+      .filter(
+        (r) =>
+          String(r.uap) === String(this.uap) &&
+          r.type === this.typeForUap &&
+          r.date === iso &&
+          this.slotOf(r) === slot
+      )
       .sort((a, b) => a.username.localeCompare(b.username));
   }
 
